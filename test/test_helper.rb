@@ -1,4 +1,5 @@
 require './lib/players_reader'
 require './lib/raw_player'
+require './lib/player'
 require 'minitest/autorun'
 require 'minitest/pride'
