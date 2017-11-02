@@ -12,3 +12,8 @@ task :tests do
   ruby 'test/raw_player_test.rb'
   ruby 'test/player_test.rb'
 end
+
+task :output do
+  puts 'generating target output file'
+  ruby 'lib/runner.rb'
+end
