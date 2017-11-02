@@ -1,8 +1,7 @@
 class Player
-  attr_reader :player, :attributes
+  attr_reader :attributes
 
   def initialize(player)
-    @player = player
     @attributes = Hash[stock_attributes.zip(player)]
   end
 
