@@ -60,11 +60,11 @@ class RawPlayersTest < Minitest::Test
   end
 
   def test_swap_fav_color_and_dob_swaps_for_pipe_raw_player
-    pipe_raw_player_after_deleting_middle_initial = RawPlayer.new("Smith Steve M Red 3-3-1985")
-    pipe_raw_player_after_deleting_middle_initial.send(:swap_fav_color_and_dob)
+    pipe_raw_player_after_deleting_mi = RawPlayer.new("Smith Steve M Red 3-3-1985")
+    pipe_raw_player_after_deleting_mi.send(:swap_fav_color_and_dob)
 
-    assert_equal "3-3-1985", pipe_raw_player_after_deleting_middle_initial.raw_player[3]
-    assert_equal "Red", pipe_raw_player_after_deleting_middle_initial.raw_player[4]
+    assert_equal "3-3-1985", pipe_raw_player_after_deleting_mi.raw_player[3]
+    assert_equal "Red", pipe_raw_player_after_deleting_mi.raw_player[4]
   end
 
   def test_swap_fav_color_and_dob_doesnt_swap_for_space_raw_player
@@ -96,7 +96,7 @@ class RawPlayersTest < Minitest::Test
     assert_equal 'Male', pipe_raw_player_after_replacing_dashes_in_dob.raw_player[2]
   end
 
-  def test_format_gender_replaces_m_with_female_for_space_raw_player
+  def test_format_gender_replaces_f_with_female_for_space_raw_player
     space_raw_player_after_replacing_dashes_in_dob = RawPlayer.new("Kournikova Anna F 6/3/1975 Red")
     space_raw_player_after_replacing_dashes_in_dob.send(:format_gender)
 
