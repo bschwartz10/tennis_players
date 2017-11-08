@@ -1,12 +1,12 @@
 require './test/test_helper'
 
 class RawPlayersTest < Minitest::Test
-  attr_reader :comma_raw_player, :pipe_raw_player, :space_raw_player
+  attr_reader :comma_player, :pipe_player, :space_player
 
   def setup
-    @comma_raw_player = RawPlayer.new("Abercrombie, Neil, Male, Tan, 2/13/1943")
-    @pipe_raw_player = RawPlayer.new("Smith | Steve | D | M | Red | 3-3-1985")
-    @space_raw_player = RawPlayer.new("Kournikova Anna F F 6-3-1975 Red")
+    @comma_player = RawPlayer.new("Abercrombie, Neil, Male, Tan, 2/13/1943")
+    @pipe_player = RawPlayer.new("Smith | Steve | D | M | Red | 3-3-1985")
+    @space_player = RawPlayer.new("Kournikova Anna F F 6-3-1975 Red")
   end
 
   def test_a_raw_player_can_be_created_through_reading_txt_file
@@ -15,92 +15,89 @@ class RawPlayersTest < Minitest::Test
     assert_instance_of RawPlayer, raw_players.first
   end
 
-  def test_raw_player_is_initialized_into_an_array
-    assert_instance_of Array, comma_raw_player.raw_player
+  def test_comma_raw_player_is_initialized_into_a_struct
+    assert_instance_of RawPlayer::CommaPlayer, comma_player.raw_player
+  end
+
+  def test_pipe_raw_player_is_initialized_into_a_struct
+    assert_instance_of RawPlayer::PipePlayer, pipe_player.raw_player
+  end
+
+  def test_space_raw_player_is_initialized_into_a_struct
+    assert_instance_of RawPlayer::SpacePlayer, space_player.raw_player
+  end
+
+  def test_remove_spaces_for_comma_and_pipe_players_for_comma_player
+    comma_player_data = "Abercrombie, Neil, Male, Tan, 2/13/1943"
+
+    assert_equal "Abercrombie,Neil,Male,Tan,2/13/1943", comma_player.send(:remove_spaces_for_comma_and_pipe_players, comma_player_data)
+  end
+
+  def test_remove_spaces_for_comma_and_pipe_players_for_pipe_player
+    pipe_player_data = "Smith | Steve | D | M | Red | 3-3-1985"
+
+    assert_equal "Smith|Steve|D|M|Red|3-3-1985", pipe_player.send(:remove_spaces_for_comma_and_pipe_players, pipe_player_data)
+  end
+
+  def test_remove_spaces_for_comma_and_pipe_players_for_space_player
+    space_player_data = "Kournikova Anna F F 6-3-1975 Red"
+
+    assert_nil space_player.send(:remove_spaces_for_comma_and_pipe_players, space_player_data)
+  end
+
+  def test_create_five_attribute_struct_for_comma_player
+    comma_player_struct = RawPlayer::CommaPlayer.new("Abercrombie", "Neil", "Male", "Tan", "2/13/1943")
+    normalized_data = ["Abercrombie", "Neil", "Male", "Tan", "2/13/1943"]
+
+    assert_equal comma_player_struct, comma_player.send(:create_five_attribute_struct, normalized_data, RawPlayer::CommaPlayer)
+  end
+
+  def test_create_six_attribute_struct_for_pipe_player
+    pipe_player_struct = RawPlayer::PipePlayer.new("Smith", "Steve", "D", "M", "Red", "3-3-1985")
+    normalized_data = ["Smith", "Steve", "D", "M", "Red", "3-3-1985"]
+
+    assert_equal pipe_player_struct, pipe_player.send(:create_six_attribute_struct, normalized_data, RawPlayer::PipePlayer)
+  end
+
+  def test_create_six_attribute_struct_for_space_player
+    space_player_struct = RawPlayer::SpacePlayer.new("Kournikova", "Anna", "F", "F", "6-3-1975", "Red")
+    normalized_data = ["Kournikova", "Anna", "F", "F", "6-3-1975", "Red"]
+
+    assert_equal space_player_struct, space_player.send(:create_six_attribute_struct, normalized_data, RawPlayer::SpacePlayer)
   end
 
   def test_comma_raw_player_after_normalizing
-    normalized_player = ["Abercrombie", "Neil", "Male", "2/13/1943", "Tan"]
-    comma_raw_player.normalize!
+    normalized_player = RawPlayer::NormalizedPlayer.new("Abercrombie", "Neil", "Male", "2/13/1943", "Tan")
 
-    assert_equal comma_raw_player.raw_player, normalized_player
+    assert_equal normalized_player, comma_player.normalize!
   end
 
   def test_pipe_raw_player_after_normalizing
-    normalized_player = ["Smith", "Steve", "Male", "3/3/1985", "Red"]
-    pipe_raw_player.normalize!
+    normalized_player = RawPlayer::NormalizedPlayer.new("Smith", "Steve", "Male", "3/3/1985", "Red")
 
-    assert_equal pipe_raw_player.raw_player, normalized_player
+    assert_equal normalized_player, pipe_player.normalize!
   end
 
   def test_space_raw_player_after_normalizing
-    normalized_player = ["Kournikova", "Anna", "Female", "6/3/1975", "Red"]
-    space_raw_player.normalize!
+    normalized_player = RawPlayer::NormalizedPlayer.new("Kournikova", "Anna", "Female", "6/3/1975", "Red")
 
-    assert_equal space_raw_player.raw_player, normalized_player
-  end
-
-  def test_delete_middle_initial_removes_mi_index_for_a_six_length_array
-    pipe_raw_player.send(:delete_middle_initial)
-
-    assert_equal 5, pipe_raw_player.raw_player.length
-  end
-
-  def test_delete_middle_initial_doesnt_remove_mi_index_for_a_five_length_array
-    space_raw_player.send(:delete_middle_initial)
-
-    assert_equal 5, comma_raw_player.raw_player.length
-  end
-
-  def test_swap_fav_color_and_dob_swaps_for_comma_raw_player
-    comma_raw_player.send(:swap_fav_color_and_dob)
-
-    assert_equal "2/13/1943", comma_raw_player.raw_player[3]
-    assert_equal "Tan", comma_raw_player.raw_player[4]
-  end
-
-  def test_swap_fav_color_and_dob_swaps_for_pipe_raw_player
-    pipe_raw_player_after_deleting_mi = RawPlayer.new("Smith Steve M Red 3-3-1985")
-    pipe_raw_player_after_deleting_mi.send(:swap_fav_color_and_dob)
-
-    assert_equal "3-3-1985", pipe_raw_player_after_deleting_mi.raw_player[3]
-    assert_equal "Red", pipe_raw_player_after_deleting_mi.raw_player[4]
-  end
-
-  def test_swap_fav_color_and_dob_doesnt_swap_for_space_raw_player
-    space_raw_player_after_deleting_middle_initial = RawPlayer.new("Kournikova Anna F 6-3-1975 Red")
-    space_raw_player_after_deleting_middle_initial.send(:swap_fav_color_and_dob)
-
-    assert_equal "6-3-1975", space_raw_player_after_deleting_middle_initial.raw_player[3]
-    assert_equal "Red", space_raw_player_after_deleting_middle_initial.raw_player[4]
+    assert_equal normalized_player, space_player.normalize!
   end
 
   def test_format_date_of_birth_replaces_dashes_with_slashes_for_pipe_raw_player
-    pipe_raw_player_after_swapping_color_dob = RawPlayer.new("Smith Steve M 3-3-1985 Red")
-    pipe_raw_player_after_swapping_color_dob.send(:format_date_of_birth)
-
-    assert_equal "3/3/1985", pipe_raw_player_after_swapping_color_dob.raw_player[3]
+    assert_equal "3/3/1985", pipe_player.send(:format_date_of_birth)
   end
 
   def test_format_date_of_birth_replaces_dashes_with_slashes_for_space_raw_player
-    space_raw_player_after_swapping_color_dob = RawPlayer.new("Kournikova Anna F 6-3-1975 Red")
-    space_raw_player_after_swapping_color_dob.send(:format_date_of_birth)
-
-    assert_equal "6/3/1975", space_raw_player_after_swapping_color_dob.raw_player[3]
+    assert_equal "6/3/1975", space_player.send(:format_date_of_birth)
   end
 
   def test_format_gender_replaces_m_with_male_for_pipe_raw_player
-    pipe_raw_player_after_replacing_dashes_in_dob = RawPlayer.new("Smith Steve M 3/3/1985 Red")
-    pipe_raw_player_after_replacing_dashes_in_dob.send(:format_gender)
-
-    assert_equal 'Male', pipe_raw_player_after_replacing_dashes_in_dob.raw_player[2]
+    assert_equal 'Male', pipe_player.send(:format_gender)
   end
 
   def test_format_gender_replaces_f_with_female_for_space_raw_player
-    space_raw_player_after_replacing_dashes_in_dob = RawPlayer.new("Kournikova Anna F 6/3/1975 Red")
-    space_raw_player_after_replacing_dashes_in_dob.send(:format_gender)
-
-    assert_equal 'Female', space_raw_player_after_replacing_dashes_in_dob.raw_player[2]
+    assert_equal 'Female', space_player.send(:format_gender)
   end
 
 end
