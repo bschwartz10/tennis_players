@@ -3,7 +3,7 @@ class PlayersWriter
     File.open('./output/target_output.txt', 'a+') do |line|
       line << "Output 1: \n"
       player_batch.each do |player|
-        player.attributes.each {|attribute, value| line << "#{value} "}
+        player.each {|attribute| line << "#{attribute} "}
         line << "\n"
       end
       line << "\n"

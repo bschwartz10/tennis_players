@@ -10,10 +10,12 @@ class RawPlayer
     swap_fav_color_and_dob
     format_date_of_birth
     format_gender
-    Player.new(raw_player)
+    SanitizedPlayer.new(raw_player[0],raw_player[1], raw_player[2], raw_player[3], raw_player[4])
   end
 
 private
+
+  SanitizedPlayer = Struct.new(:last_name, :first_name, :gender, :date_of_birth, :favorite_color)
 
   def delete_middle_initial
     raw_player.delete_at(2) if raw_player.count == 6
