@@ -21,21 +21,21 @@ private
     remove_spaces_for_comma_and_pipe_players(player_data)
     if player_data.include?(',')
       normalized_data = player_data.split(',')
-      create_five_attribute_struct(normalized_data, CommaPlayer)
+      create_five_attribute_player(normalized_data, CommaPlayer)
     elsif player_data.include?('|')
       normalized_data = player_data.split('|')
-      create_six_attribute_struct(normalized_data, PipePlayer)
+      create_six_attribute_player(normalized_data, PipePlayer)
     else
       normalized_data = player_data.split(' ')
-      create_six_attribute_struct(normalized_data, SpacePlayer)
+      create_six_attribute_player(normalized_data, SpacePlayer)
     end
   end
 
-  def create_five_attribute_struct(normalized_data, player_type)
+  def create_five_attribute_player(normalized_data, player_type)
     player_type.new(normalized_data[0], normalized_data[1], normalized_data[2], normalized_data[3], normalized_data[4])
   end
 
-  def create_six_attribute_struct(normalized_data, player_type)
+  def create_six_attribute_player(normalized_data, player_type)
     player_type.new(normalized_data[0], normalized_data[1], normalized_data[2], normalized_data[3], normalized_data[4], normalized_data[5])
   end
 
