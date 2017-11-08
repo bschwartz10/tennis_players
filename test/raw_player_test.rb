@@ -49,21 +49,21 @@ class RawPlayersTest < Minitest::Test
     comma_player_struct = RawPlayer::CommaPlayer.new("Abercrombie", "Neil", "Male", "Tan", "2/13/1943")
     normalized_data = ["Abercrombie", "Neil", "Male", "Tan", "2/13/1943"]
 
-    assert_equal comma_player_struct, comma_player.send(:create_five_attribute_struct, normalized_data, RawPlayer::CommaPlayer)
+    assert_equal comma_player_struct, comma_player.send(:create_five_attribute_player, normalized_data, RawPlayer::CommaPlayer)
   end
 
   def test_create_six_attribute_struct_for_pipe_player
     pipe_player_struct = RawPlayer::PipePlayer.new("Smith", "Steve", "D", "M", "Red", "3-3-1985")
     normalized_data = ["Smith", "Steve", "D", "M", "Red", "3-3-1985"]
 
-    assert_equal pipe_player_struct, pipe_player.send(:create_six_attribute_struct, normalized_data, RawPlayer::PipePlayer)
+    assert_equal pipe_player_struct, pipe_player.send(:create_six_attribute_player, normalized_data, RawPlayer::PipePlayer)
   end
 
   def test_create_six_attribute_struct_for_space_player
     space_player_struct = RawPlayer::SpacePlayer.new("Kournikova", "Anna", "F", "F", "6-3-1975", "Red")
     normalized_data = ["Kournikova", "Anna", "F", "F", "6-3-1975", "Red"]
 
-    assert_equal space_player_struct, space_player.send(:create_six_attribute_struct, normalized_data, RawPlayer::SpacePlayer)
+    assert_equal space_player_struct, space_player.send(:create_six_attribute_player, normalized_data, RawPlayer::SpacePlayer)
   end
 
   def test_comma_raw_player_after_normalizing
