@@ -1,5 +1,5 @@
 require './lib/players_reader'
-require './lib/raw_player'
+require './lib/player'
 require './lib/player'
 require './lib/players_writer'
 require 'minitest/autorun'
