@@ -6,7 +6,7 @@ require 'date'
 
 files = ['./input/comma.txt', './input/pipe.txt', './input/space.txt']
 
-raw_players = files.map {|file| PlayersReader.read_players(file)}
+raw_players = files.map {|file| PlayersReader.import(file)}
 players = raw_players.flatten.map(&:normalize!)
 def gender
   -> player {[player.gender, player.last_name]}

@@ -1,6 +1,4 @@
-require './lib/players_reader'
 require './lib/player'
-require './lib/player'
-require './lib/players_writer'
+require './lib/player_io'
 require 'minitest/autorun'
 require 'minitest/pride'
