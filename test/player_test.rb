@@ -9,24 +9,6 @@ class RawPlayersTest < Minitest::Test
     @space_player = Player.new("Kournikova Anna F F 6-3-1975 Red")
   end
 
-  def test_a_player_can_be_created_through_reading_txt_file
-    files = ['./input/comma.txt', './input/pipe.txt', './input/space.txt']
-    players = PlayerIo.import(files)
-    assert_instance_of Player, players.first
-  end
-
-  def test_comma_player_is_an_insatance_of_player
-    assert_instance_of Player, comma_player
-  end
-
-  def test_pipe_player_is_an_instance_of_player
-    assert_instance_of Player, pipe_player
-  end
-
-  def test_space_player_is_an_instance_of_player
-    assert_instance_of Player, space_player
-  end
-
   def test_remove_spaces_for_comma_and_pipe_players_for_comma_player
     comma_player_data = "Abercrombie, Neil, Male, Tan, 2/13/1943"
 
@@ -127,7 +109,7 @@ class RawPlayersTest < Minitest::Test
 
     assert_equal attributes, comma_player.send(:match_attributes, comma_player_struct)
   end
-  
+
   def test_match_attributes_creates_attributes_hash_from_pipe_struct
     pipe_player_struct = Player::PipePlayer.new("Smith", "Steve", "D", "Male", "Red", "3/3/1985")
     attributes = {:last_name=>"Smith", :first_name=>"Steve", :gender=>"Male", :date_of_birth=>"3/3/1985", :favorite_color=>"Red"}
