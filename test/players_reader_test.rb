@@ -14,6 +14,6 @@ class PlayersReaderTest < Minitest::Test
   def test_read_players_method_returns_an_array_of_raw_players
     file = './input/comma.txt'
 
-    assert_instance_of RawPlayer, PlayersReader.read_players(file).first
+    assert_instance_of Player, PlayersReader.read_players(file).first
   end
 end
