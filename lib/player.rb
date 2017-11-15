@@ -1,14 +1,14 @@
-class RawPlayer
-  attr_reader :raw_player
+class Player
+  attr_reader :player
 
   def initialize(player_data)
-    @raw_player = create_player_structs(player_data)
+    @player = create_player_structs(player_data)
   end
 
   def normalize!
     format_date_of_birth
     format_gender
-    NormalizedPlayer.new(raw_player.last_name, raw_player.first_name, raw_player.gender, raw_player.date_of_birth, raw_player.favorite_color)
+    NormalizedPlayer.new(player.last_name, player.first_name, player.gender, player.date_of_birth, player.favorite_color)
   end
 
 private
@@ -44,11 +44,11 @@ private
   end
 
   def format_date_of_birth
-    raw_player.date_of_birth.tr!('-', '/')
+    player.date_of_birth.tr!('-', '/')
   end
 
   def format_gender
-    raw_player.gender = raw_player.gender.start_with?('M') ? 'Male' : 'Female'
+    player.gender = player.gender.start_with?('M') ? 'Male' : 'Female'
   end
 
 end
