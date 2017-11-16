@@ -5,5 +5,5 @@ require 'date'
 
 files = ['./input/comma.txt', './input/pipe.txt', './input/space.txt']
 players = PlayerIo.import(files)
-sorted_players = SortedPlayerCollection.new(players)
+sorted_players = SortedPlayerCollection.sort_players(players)
 PlayerIo.export('./output/target_output.txt', sorted_players)

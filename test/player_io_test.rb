@@ -6,7 +6,7 @@ class PlayerIoTest < Minitest::Test
   def setup
     files = ['./test/fixtures/comma_test_fixture.txt', './test/fixtures/pipe_test_fixture.txt', './test/fixtures/space_test_fixture.txt']
     @players = PlayerIo.import(files)
-    sorted_players = SortedPlayerCollection.new(players)
+    sorted_players = SortedPlayerCollection.sort_players(players)
     PlayerIo.export('./test/output/target_output.txt', sorted_players)
   end
 
