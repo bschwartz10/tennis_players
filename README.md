@@ -1,5 +1,3 @@
-
-Add tests for sorting methods
 # Tennis Players
 
 ## Overview
@@ -24,10 +22,21 @@ To run this project, perform the following:
   4. The runner file can be ran with `ruby lib/runner.rb`
 
 ### Design
-The app is split into four separate classes:
-* PlayersReader - read the txt file and create a RawPlayer object with each line
-* RawPlayer- Normalize raw player data and create Player objects
-* Player - Match each raw player attribute with the corresponding key
-* PlayersWriter - write data to txt file with correct format
+The app is split into three separate classes:
+* PlayerIo - read/write data
+* Player - Normalize player data and create Player objects
+* SortedPlayerCollection - Sort and store Player objects
 
 ### Discussion
+The overall design was constructed with the assumption that the app has three core functionalities.
+  1. Read/Write data
+  2. Normalize Data
+  3. Sort data according business requirements
+
+The PlayerIo class houses both methods to read/write data. The Player class normalizes the data coming from the three different input files. SortedPlayerCollection sorts the data according to specified requirements.
+
+My goal was to keep the application simple while maintaining future flexibility. For example if the requirements were to parse 20 different types of files and none of the data was consistent, I would consider splitting the Player class into two or more specified classes. The first class would create all the different structs and the second class would normalize the data.
+
+In this iteration I am testing my private methods using the .send method. I know there is opinions about this topic and wanted to acknowledge that I am open to testing or not testing my private methods. I chose to encapsulate(privatize) the methods I don't use in the runner to make the classes more secure.
+
+I am using test fixture files for testing the File IO for the app. Since there are only three lines in each input file I chose to use the entire file in my test fixture. If there were thousands of lines in these files I would minimize the amount of data I needed in my test fixtures.
