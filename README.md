@@ -37,6 +37,6 @@ The PlayerIo class houses both methods to read/write data. The Player class norm
 
 My goal was to keep the application simple while maintaining future flexibility. For example if the requirements were to parse 20 different types of files and none of the data was consistent, I would consider splitting the Player class into two or more specified classes. The first class would create all the different structs and the second class would normalize the data.
 
-In this iteration I am testing my private methods using the .send method. I know there is opinions about this topic and wanted to acknowledge that I am open to testing or not testing my private methods. I chose to encapsulate(privatize) the methods I don't use in the runner to make the classes more secure.
+In this iteration I am testing my private methods using the .send method. I know there are opinions about this topic and wanted to acknowledge that I am open to testing or not testing my private methods. I chose to encapsulate(privatize) the methods I don't use in the runner to make the classes more secure.
 
-I am using test fixture files for testing the File IO for the app. Since there are only three lines in each input file I chose to use the entire file in my test fixture. If there were thousands of lines in these files I would minimize the amount of data I needed in my test fixtures.
+I am using test fixture files for testing the File IO for the app. Since there are only three lines in each input file, I chose to use the entire file in my test fixture. If there were thousands of lines in these files I would minimize the amount of data I needed in my test fixtures.
